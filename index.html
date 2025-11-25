@@ -1,0 +1,3343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Canadian Wollastonite – ESG Sustainability Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --card-bg: #0b1220;
+      --card-elevated: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.16);
+      --accent-2: #38bdf8;
+      --accent-2-soft: rgba(56, 189, 248, 0.12);
+      --danger: #f97373;
+      --warn: #fbbf24;
+      --muted: #64748b;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --text: #e5e7eb;
+      --text-soft: #94a3b8;
+      --text-faint: #6b7280;
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+      --shadow-subtle: 0 10px 25px rgba(15, 23, 42, 0.55);
+      --blur: blur(20px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Inter", sans-serif;
+      background: radial-gradient(
+        circle at top left,
+        #1e293b 0,
+        #020617 50%,
+        #000 100%
+      );
+      color: var(--text);
+      min-height: 100%;
+    }
+
+    body {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header.app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(26px);
+      background: linear-gradient(
+        90deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(15, 23, 42, 0.92)
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.32);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #bbf7d0, #22c55e);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.45),
+        0 10px 20px rgba(22, 163, 74, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      color: #022c22;
+    }
+
+    .brand-text h1 {
+      margin: 0 0 3px;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+    }
+
+    .header-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(
+        circle at top,
+        rgba(51, 65, 85, 0.9),
+        rgba(15, 23, 42, 0.9)
+      );
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+    }
+
+    .header-pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .layout {
+      flex: 1;
+      display: flex;
+      max-width: 1280px;
+      width: 100%;
+      margin: 16px auto 20px;
+      padding: 0 16px 16px;
+      gap: 18px;
+    }
+
+    nav.sidebar {
+      width: 230px;
+      flex-shrink: 0;
+      border-radius: 22px;
+      padding: 14px;
+      background: radial-gradient(
+        circle at top,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.94)
+      );
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: -2px;
+    }
+
+    .nav-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-item {
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-soft);
+      font-size: 13px;
+      padding: 7px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.18s ease-out;
+    }
+
+    .nav-item span.label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-item span.badge {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: var(--text-faint);
+    }
+
+    .nav-item:hover {
+      background: radial-gradient(
+        circle at top,
+        rgba(30, 64, 175, 0.35),
+        rgba(15, 23, 42, 0.95)
+      );
+      border-color: rgba(56, 189, 248, 0.7);
+      color: #e5f4ff;
+    }
+
+    .nav-item.active {
+      background: radial-gradient(
+        circle at top left,
+        rgba(16, 185, 129, 0.32),
+        rgba(15, 23, 42, 0.98)
+      );
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #e5ffe9;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35),
+        0 10px 25px rgba(16, 185, 129, 0.35);
+    }
+
+    .nav-footer {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      color: var(--text-faint);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-footer strong {
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+
+    .nav-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .nav-chip {
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--text-soft);
+    }
+
+    main.content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tab {
+      display: none;
+      animation: fadeIn 0.23s ease-out;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      nav.sidebar {
+        width: 100%;
+        order: -1;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .sidebar-section-title {
+        display: none;
+      }
+
+      .nav-group {
+        flex-direction: row;
+        flex-wrap: nowrap;
+      }
+
+      .nav-item {
+        white-space: nowrap;
+        padding-inline: 12px;
+      }
+
+      .nav-footer {
+        display: none;
+      }
+
+      .page-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-xl);
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.94)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .pill-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-faint);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+    }
+
+    .impact-body {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.6;
+      margin-top: 4px;
+    }
+
+    .impact-body strong {
+      color: #e5ffe9;
+      font-weight: 600;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .pillars-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .pillar-card {
+      border-radius: 18px;
+      padding: 12px 11px 11px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.95)
+      );
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      background: rgba(15, 118, 110, 0.24);
+      border: 1px solid rgba(34, 197, 94, 0.6);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.45);
+    }
+
+    .pillar-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .pillar-desc {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .pillar-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .completion-pill {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.14);
+      color: #bbf7d0;
+      border: 1px solid rgba(22, 163, 74, 0.8);
+    }
+
+    .phase-timeline {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .timeline-track {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .timeline-bar {
+      position: relative;
+      height: 7px;
+      flex: 1;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(30, 64, 175, 0.5),
+        rgba(15, 23, 42, 0.8)
+      );
+      overflow: hidden;
+    }
+
+    .timeline-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #22c55e, #38bdf8);
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.9);
+      transition: width 0.4s ease-out;
+    }
+
+    .phase-dot-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-top: 2px;
+      color: var(--text-soft);
+    }
+
+    .phase-dot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .phase-dot span.bubble {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .phase-dot--active span.bubble {
+      border-color: rgba(34, 197, 94, 0.9);
+      background: radial-gradient(circle at 30% 20%, #a7f3d0, #22c55e);
+      color: #022c22;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+    }
+
+    .phase-dot span.label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .headline-kpi-chart {
+      margin-top: 10px;
+      height: 210px;
+    }
+
+    .phase-summary-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .phase-summary-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .phase-summary-body {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .phase-chip-row {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .phase-chip {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(51, 65, 85, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text);
+    }
+
+    .mini-kpi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .mini-kpi-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .mini-kpi-row strong {
+      font-weight: 500;
+    }
+
+    .mini-kpi-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .mini-progress {
+      width: 72px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(30, 64, 175, 0.6);
+      overflow: hidden;
+    }
+
+    .mini-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #38bdf8);
+    }
+
+    .pillar-panel {
+      margin-bottom: 16px;
+    }
+
+    .pillar-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+      padding: 2px;
+      border-radius: 999px;
+      background: radial-gradient(
+        circle at top,
+        rgba(15, 23, 42, 0.95),
+        rgba(30, 64, 175, 0.45)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.55);
+    }
+
+    .pillar-tab {
+      border-radius: 999px;
+      font-size: 11px;
+      padding: 5px 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.17s ease-out;
+      white-space: nowrap;
+    }
+
+    .pillar-tab.active {
+      background: radial-gradient(
+        circle at top left,
+        rgba(34, 197, 94, 0.3),
+        rgba(15, 23, 42, 0.9)
+      );
+      color: #e5ffe9;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35);
+    }
+
+    .pillar-panel-body {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .pillar-panel-body {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .pillar-activities-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .pillar-activity {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 7px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+    }
+
+    .activity-main {
+      flex: 1;
+    }
+
+    .activity-status {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .status-complete {
+      background: rgba(22, 163, 74, 0.2);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.8);
+    }
+
+    .status-progress {
+      background: rgba(56, 189, 248, 0.2);
+      color: #e0f2fe;
+      border: 1px solid rgba(56, 189, 248, 0.85);
+    }
+
+    .status-not-started {
+      background: rgba(55, 65, 81, 0.7);
+      color: var(--text-soft);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+    }
+
+    .pillar-mini-chart {
+      height: 130px;
+      margin-top: 2px;
+    }
+
+    .toc-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .toc-strip {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .toc-column {
+      border-radius: 16px;
+      padding: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.94)
+      );
+    }
+
+    .toc-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .toc-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .toc-item {
+      position: relative;
+      padding: 5px 7px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.95);
+      cursor: default;
+      color: var(--text-soft);
+    }
+
+    .toc-item strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .kpi-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 10px;
+    }
+
+    .kpi-controls input,
+    .kpi-controls select {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--text-soft);
+      outline: none;
+      min-width: 0;
+    }
+
+    .kpi-controls input::placeholder {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
+    .kpi-controls input:focus,
+    .kpi-controls select:focus {
+      border-color: rgba(34, 197, 94, 0.85);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
+      color: var(--text);
+    }
+
+    .kpi-table-wrapper {
+      max-height: 360px;
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+    }
+
+    table.kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 720px;
+    }
+
+    table.kpi-table thead {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+      z-index: 5;
+    }
+
+    table.kpi-table th,
+    table.kpi-table td {
+      padding: 7px 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(31, 41, 55, 1);
+    }
+
+    table.kpi-table th {
+      font-weight: 500;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-size: 11px;
+    }
+
+    table.kpi-table tr {
+      cursor: pointer;
+      transition: background 0.16s ease-out;
+    }
+
+    table.kpi-table tbody tr:hover {
+      background: linear-gradient(
+        90deg,
+        rgba(30, 64, 175, 0.6),
+        rgba(15, 23, 42, 1)
+      );
+    }
+
+    .kpi-status-pill {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-on-track {
+      background: rgba(22, 163, 74, 0.2);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.85);
+    }
+
+    .status-at-risk {
+      background: rgba(250, 204, 21, 0.15);
+      color: #fef9c3;
+      border: 1px solid rgba(234, 179, 8, 0.85);
+    }
+
+    .status-not-started {
+      background: rgba(55, 65, 81, 0.8);
+      color: var(--text-soft);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+    }
+
+    .status-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(
+        circle at top,
+        rgba(15, 23, 42, 0.85),
+        rgba(15, 23, 42, 0.93)
+      );
+      backdrop-filter: blur(16px);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 16px 24px;
+      z-index: 60;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-card {
+      max-width: 760px;
+      width: 100%;
+      background: radial-gradient(
+        circle at top left,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.96)
+      );
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+      padding: 18px 18px 16px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      border-radius: 999px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      background: rgba(148, 163, 184, 0.2);
+      color: #f9fafb;
+    }
+
+    .modal-header {
+      margin-bottom: 8px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .modal-header p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .modal-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .modal-meta-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .modal-meta-list li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .modal-chart {
+      height: 180px;
+      margin-top: 2px;
+    }
+
+    .definitions-list {
+      font-size: 13px;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .definitions-list strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .pill-inline {
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-inline span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .small-muted {
+      font-size: 11px;
+      color: var(--text-faint);
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-logo">CW</div>
+          <div class="brand-text">
+            <h1>Canadian Wollastonite – ESG Sustainability Engine</h1>
+            <p>
+              Phased implementation dashboard &nbsp;•&nbsp; Phase 1–3 view
+              &nbsp;•&nbsp; Mine-to-gate baseline 2025
+            </p>
+          </div>
+        </div>
+        <div class="header-meta">
+          <div class="header-pill">
+            <span class="dot"></span> LIVE ESG SYSTEM &nbsp;•&nbsp; DEMO
+          </div>
+          <span>PHASED ROADMAP: 0–24 MONTHS</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="sidebar">
+        <div>
+          <div class="sidebar-section-title">Navigation</div>
+          <div class="nav-group">
+            <button class="nav-item active" data-tab="overview">
+              <span class="label">Overview</span>
+              <span class="badge">Impact</span>
+            </button>
+            <button class="nav-item" data-tab="phase1">
+              <span class="label">Phase 1 – Foundations</span>
+              <span class="badge">0–6 mo</span>
+            </button>
+            <button class="nav-item" data-tab="phase2">
+              <span class="label">Phase 2 – Integrity</span>
+              <span class="badge">6–15 mo</span>
+            </button>
+            <button class="nav-item" data-tab="phase3">
+              <span class="label">Phase 3 – Transparency</span>
+              <span class="badge">15–24 mo</span>
+            </button>
+            <button class="nav-item" data-tab="kpis">
+              <span class="label">KPI Catalog</span>
+              <span class="badge">15+ KPIs</span>
+            </button>
+            <button class="nav-item" data-tab="definitions">
+              <span class="label">Data Definitions</span>
+              <span class="badge">Scope</span>
+            </button>
+          </div>
+        </div>
+        <div class="nav-footer">
+          <div><strong>Four Solution Pillars</strong></div>
+          <div class="nav-chip-row">
+            <span class="nav-chip">Measurement Engine</span>
+            <span class="nav-chip">Certification Pathway</span>
+            <span class="nav-chip">Buyer Engagement</span>
+            <span class="nav-chip">Communication & Transparency</span>
+          </div>
+        </div>
+      </nav>
+
+      <main class="content">
+        <!-- Overview Tab -->
+        <section id="overview" class="tab active">
+          <div class="page-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="pill-tag">
+                    <span class="dot"></span> 2028 Impact Vision
+                  </div>
+                  <div class="card-title" style="margin-top: 6px">
+                    Climate-Positive Mining Model
+                  </div>
+                </div>
+              </div>
+              <div class="impact-body">
+                By 2028, Canadian Wollastonite (CW) operates a
+                <strong>credible climate-positive mining model</strong> that:
+                <ul style="margin: 8px 0 0; padding-left: 18px">
+                  <li>
+                    Helps enterprise buyers cut
+                    <strong>Scope 3 emissions</strong> and nature impacts using
+                    CW’s wollastonite products.
+                  </li>
+                  <li>
+                    Runs an <strong>electrified, low-carbon mine</strong> with
+                    verified metrics for carbon, biodiversity, water,
+                    restoration, safety, governance, and community.
+                  </li>
+                  <li>
+                    Demonstrably contributes to
+                    <strong>climate-change mitigation</strong> through enhanced
+                    weathering and low-carbon operations.
+                  </li>
+                  <li>
+                    Maintains strong community trust and a durable
+                    <strong>social licence to operate</strong> around Kingston,
+                    Ontario.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Phase Progress Timeline</div>
+                  <div class="card-subtitle">
+                    Implementation status across Phase 1–3
+                  </div>
+                </div>
+                <span class="pill-inline">
+                  <span class="dot"></span> Overall progress
+                  <span id="overviewOverallProgress">0%</span>
+                </span>
+              </div>
+              <div class="phase-timeline">
+                <div class="timeline-track">
+                  <span>0 months</span>
+                  <div class="timeline-bar">
+                    <div
+                      class="timeline-fill"
+                      id="timelineFill"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                  <span>24 months</span>
+                </div>
+                <div class="phase-dot-row">
+                  <div class="phase-dot">
+                    <span class="bubble">1</span>
+                    <span class="label">Phase 1</span>
+                    <span id="phase1Percent" style="font-size: 10px"></span>
+                  </div>
+                  <div class="phase-dot">
+                    <span class="bubble">2</span>
+                    <span class="label">Phase 2</span>
+                    <span id="phase2Percent" style="font-size: 10px"></span>
+                  </div>
+                  <div class="phase-dot">
+                    <span class="bubble">3</span>
+                    <span class="label">Phase 3</span>
+                    <span id="phase3Percent" style="font-size: 10px"></span>
+                  </div>
+                </div>
+                <div class="headline-kpi-chart">
+                  <canvas id="overviewHeadlineChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Four Solution Pillars</div>
+                <div class="card-subtitle">
+                  Foundations for CW’s ESG sustainability engine
+                </div>
+              </div>
+            </div>
+            <div class="pillars-grid">
+              <div class="pillar-card">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 8px">
+                    <div class="pillar-icon">⚙️</div>
+                    <div>
+                      <div class="pillar-name">
+                        Pillar 1 – Build the Measurement Engine
+                      </div>
+                      <div class="pillar-desc">
+                        ESG Program Office, mine-to-gate boundaries, KPI
+                        catalog, templates, and leadership dashboards.
+                      </div>
+                    </div>
+                  </div>
+                  <span class="completion-pill" id="pillar1Completion">0%</span>
+                </div>
+              </div>
+              <div class="pillar-card">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 8px">
+                    <div class="pillar-icon">✅</div>
+                    <div>
+                      <div class="pillar-name">
+                        Pillar 2 – Certification &amp; Verification Pathway
+                      </div>
+                      <div class="pillar-desc">
+                        ISO 14001 readiness, TSM enrollment, evidence logs,
+                        incident tracking, and internal audits.
+                      </div>
+                    </div>
+                  </div>
+                  <span class="completion-pill" id="pillar2Completion">0%</span>
+                </div>
+              </div>
+              <div class="pillar-card">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 8px">
+                    <div class="pillar-icon">🤝</div>
+                    <div>
+                      <div class="pillar-name">
+                        Pillar 3 – Buyer &amp; Stakeholder Engagement System
+                      </div>
+                      <div class="pillar-desc">
+                        Supplier ESG Data Pack, pilot with priority buyers,
+                        board/customer dashboards, annual report.
+                      </div>
+                    </div>
+                  </div>
+                  <span class="completion-pill" id="pillar3Completion">0%</span>
+                </div>
+              </div>
+              <div class="pillar-card">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 8px">
+                    <div class="pillar-icon">🌐</div>
+                    <div>
+                      <div class="pillar-name">
+                        Pillar 4 – Communication Strategy &amp; Transparency
+                        Tools
+                      </div>
+                      <div class="pillar-desc">
+                        Public sustainability microsite, community forum,
+                        advance blasting notifications, and visual explainers.
+                      </div>
+                    </div>
+                  </div>
+                  <span class="completion-pill" id="pillar4Completion">0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Phase 1 -->
+        <section id="phase1" class="tab">
+          <div class="phase-summary-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="pill-tag">
+                    <span class="dot"></span> Phase 1 – Months 0–6
+                  </div>
+                  <div class="card-title" style="margin-top: 6px">
+                    Governance &amp; Measurement Foundations
+                  </div>
+                  <div class="card-subtitle">
+                    Building the core ESG engine for Canadian Wollastonite
+                  </div>
+                </div>
+              </div>
+              <div class="phase-summary-body">
+                Phase 1 focuses on establishing CW’s
+                <strong>ESG Program Office</strong>, defining the
+                <strong>mine-to-gate boundary</strong> (baseline 2025), and
+                creating a KPI catalog across carbon, biodiversity, water,
+                restoration, safety, community, and governance. Standardized
+                data templates and clear RACI roles turn ad-hoc sustainability
+                efforts into a repeatable measurement system.
+                <div class="phase-chip-row">
+                  <span class="phase-chip">
+                    Sustainability Lead &amp; Data Analyst in place
+                  </span>
+                  <span class="phase-chip">Mine-to-gate scope defined</span>
+                  <span class="phase-chip">15+ ESG KPIs cataloged</span>
+                  <span class="phase-chip">
+                    Leadership dashboard v1 launched
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Phase 1 KPI Snapshot</div>
+                  <div class="card-subtitle">
+                    Baseline performance &amp; early improvements
+                  </div>
+                </div>
+              </div>
+              <div class="mini-kpi-list" id="phase1KpiSnapshot"></div>
+              <div class="pillar-mini-chart">
+                <canvas id="phase1MiniChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="card pillar-panel" data-phase="phase1">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Pillar-by-Pillar Progress</div>
+                <div class="card-subtitle">
+                  Activities and KPIs delivered in Phase 1
+                </div>
+              </div>
+            </div>
+            <div class="pillar-tabs">
+              <button class="pillar-tab active" data-pillar="P1">
+                Pillar 1 – Measurement Engine
+              </button>
+              <button class="pillar-tab" data-pillar="P2">
+                Pillar 2 – Certification Pathway
+              </button>
+              <button class="pillar-tab" data-pillar="P3">
+                Pillar 3 – Buyer Engagement
+              </button>
+              <button class="pillar-tab" data-pillar="P4">
+                Pillar 4 – Transparency Tools
+              </button>
+            </div>
+            <div class="pillar-panel-body">
+              <div>
+                <div
+                  class="card-subtitle"
+                  id="phase1PillarDescription"
+                ></div>
+                <ul
+                  class="pillar-activities-list"
+                  id="phase1ActivitiesList"
+                ></ul>
+              </div>
+              <div>
+                <div class="card-subtitle">Pillar KPIs – Phase 1 values</div>
+                <div class="pillar-mini-chart">
+                  <canvas id="phase1PillarKpiChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Theory of Change – Phase 1</div>
+                <div class="card-subtitle">
+                  Connecting activities to outputs and outcomes
+                </div>
+              </div>
+            </div>
+            <div class="toc-strip">
+              <div class="toc-column">
+                <div class="toc-title">Activities</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    <strong>Establish ESG Program Office</strong> – appoint
+                    Sustainability Lead &amp; part-time Data Analyst.
+                  </li>
+                  <li class="toc-item">
+                    Define mine-to-gate reporting <strong>boundary and scope</strong>
+                    for 2025 baseline.
+                  </li>
+                  <li class="toc-item">
+                    Draft and validate initial
+                    <strong>ESG KPI catalog</strong> (15+ indicators).
+                  </li>
+                </ul>
+              </div>
+              <div class="toc-column">
+                <div class="toc-title">Outputs</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    Approved ESG governance structure and
+                    <strong>RACI matrix</strong>.
+                  </li>
+                  <li class="toc-item">
+                    Standardized <strong>data templates</strong> and assigned
+                    data owners per KPI.
+                  </li>
+                  <li class="toc-item">
+                    Leadership dashboard v1 showing
+                    <strong>baseline Phase 1 metrics</strong>.
+                  </li>
+                </ul>
+              </div>
+              <div class="toc-column">
+                <div class="toc-title">Outcomes</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    CW moves from ad-hoc tracking to
+                    <strong>systematic ESG measurement</strong>.
+                  </li>
+                  <li class="toc-item">
+                    Leadership has
+                    <strong>single-source-of-truth</strong> for operational
+                    decisions.
+                  </li>
+                  <li class="toc-item">
+                    CW is ready to pursue
+                    <strong>ISO 14001 &amp; TSM readiness</strong> in Phase 2.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Phase 2 -->
+        <section id="phase2" class="tab">
+          <div class="phase-summary-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="pill-tag">
+                    <span class="dot"></span> Phase 2 – Months 6–15
+                  </div>
+                  <div class="card-title" style="margin-top: 6px">
+                    Certification Readiness &amp; Data Integrity
+                  </div>
+                  <div class="card-subtitle">
+                    Verifying CW’s ESG data and systems
+                  </div>
+                </div>
+              </div>
+              <div class="phase-summary-body">
+                Phase 2 turns the measurement engine into a
+                <strong>verified ESG system</strong>. CW completes an ISO 14001
+                gap assessment, builds evidence logs, and formalizes incident
+                and complaint tracking. TSM enrollment begins and quarterly
+                internal ESG audits validate data quality. CW produces its first
+                <strong>baseline ESG dataset</strong> across all KPIs and pilots
+                a <strong>Supplier ESG Data Pack</strong> with three priority
+                buyers.
+                <div class="phase-chip-row">
+                  <span class="phase-chip">
+                    ISO 14001 gap analysis complete
+                  </span>
+                  <span class="phase-chip">TSM protocols initiated</span>
+                  <span class="phase-chip">Quarterly ESG audits running</span>
+                  <span class="phase-chip">Supplier ESG Data Pack pilot</span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Phase 2 KPI Snapshot</div>
+                  <div class="card-subtitle">
+                    Trends as certifications and audits scale up
+                  </div>
+                </div>
+              </div>
+              <div class="mini-kpi-list" id="phase2KpiSnapshot"></div>
+              <div class="pillar-mini-chart">
+                <canvas id="phase2MiniChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="card pillar-panel" data-phase="phase2">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Pillar-by-Pillar Progress</div>
+                <div class="card-subtitle">
+                  Activities and KPIs delivered in Phase 2
+                </div>
+              </div>
+            </div>
+            <div class="pillar-tabs">
+              <button class="pillar-tab active" data-pillar="P1">
+                Pillar 1 – Measurement Engine
+              </button>
+              <button class="pillar-tab" data-pillar="P2">
+                Pillar 2 – Certification Pathway
+              </button>
+              <button class="pillar-tab" data-pillar="P3">
+                Pillar 3 – Buyer Engagement
+              </button>
+              <button class="pillar-tab" data-pillar="P4">
+                Pillar 4 – Transparency Tools
+              </button>
+            </div>
+            <div class="pillar-panel-body">
+              <div>
+                <div
+                  class="card-subtitle"
+                  id="phase2PillarDescription"
+                ></div>
+                <ul
+                  class="pillar-activities-list"
+                  id="phase2ActivitiesList"
+                ></ul>
+              </div>
+              <div>
+                <div class="card-subtitle">Pillar KPIs – Phase 2 values</div>
+                <div class="pillar-mini-chart">
+                  <canvas id="phase2PillarKpiChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Theory of Change – Phase 2</div>
+                <div class="card-subtitle">
+                  From internal measurement to third-party-ready data
+                </div>
+              </div>
+            </div>
+            <div class="toc-strip">
+              <div class="toc-column">
+                <div class="toc-title">Activities</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    <strong>ISO 14001 gap assessment</strong> and procedure
+                    updates.
+                  </li>
+                  <li class="toc-item">
+                    Launch <strong>quarterly ESG audits</strong> and
+                    incident/complaint logs.
+                  </li>
+                  <li class="toc-item">
+                    Initiate <strong>TSM enrollment</strong> and align
+                    protocols.
+                  </li>
+                </ul>
+              </div>
+              <div class="toc-column">
+                <div class="toc-title">Outputs</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    Evidence logs and audit findings compiled in a central
+                    repository.
+                  </li>
+                  <li class="toc-item">
+                    First mine-to-gate
+                    <strong>baseline ESG dataset</strong> created.
+                  </li>
+                  <li class="toc-item">
+                    Supplier ESG Data Pack piloted with
+                    <strong>three priority buyers</strong>.
+                  </li>
+                </ul>
+              </div>
+              <div class="toc-column">
+                <div class="toc-title">Outcomes</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    CW’s ESG data becomes <strong>assurance-ready</strong> for
+                    external verification.
+                  </li>
+                  <li class="toc-item">
+                    Enterprise buyers gain confidence in CW’s
+                    <strong>data integrity</strong>.
+                  </li>
+                  <li class="toc-item">
+                    CW unlocks a path toward
+                    <strong>sustainability-linked finance</strong> in later
+                    years.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Phase 3 -->
+        <section id="phase3" class="tab">
+          <div class="phase-summary-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="pill-tag">
+                    <span class="dot"></span> Phase 3 – Months 15–24
+                  </div>
+                  <div class="card-title" style="margin-top: 6px">
+                    Transparency, Reporting &amp; Engagement
+                  </div>
+                  <div class="card-subtitle">
+                    Taking CW’s ESG system public
+                  </div>
+                </div>
+              </div>
+              <div class="phase-summary-body">
+                Phase 3 operationalizes transparency for buyers, investors, and
+                community stakeholders. CW publishes its first
+                <strong>Annual Sustainability Report</strong>, launches a public
+                <strong>sustainability microsite</strong>, and rolls out
+                quarterly ESG dashboards to the board and customers. An
+                <strong>Annual Community Forum</strong> anchors dialogue with
+                neighbours, while the refined Supplier ESG Data Pack scales to
+                additional buyers alongside solidified ISO and TSM progress.
+                <div class="phase-chip-row">
+                  <span class="phase-chip">
+                    Annual Sustainability Report published
+                  </span>
+                  <span class="phase-chip">Public sustainability microsite live</span>
+                  <span class="phase-chip">
+                    Quarterly ESG dashboards to board &amp; buyers
+                  </span>
+                  <span class="phase-chip">Annual Community Forum hosted</span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Phase 3 KPI Snapshot</div>
+                  <div class="card-subtitle">
+                    Performance aligned with 2028 climate-positive vision
+                  </div>
+                </div>
+              </div>
+              <div class="mini-kpi-list" id="phase3KpiSnapshot"></div>
+              <div class="pillar-mini-chart">
+                <canvas id="phase3MiniChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="card pillar-panel" data-phase="phase3">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Pillar-by-Pillar Progress</div>
+                <div class="card-subtitle">
+                  Activities and KPIs delivered in Phase 3
+                </div>
+              </div>
+            </div>
+            <div class="pillar-tabs">
+              <button class="pillar-tab active" data-pillar="P1">
+                Pillar 1 – Measurement Engine
+              </button>
+              <button class="pillar-tab" data-pillar="P2">
+                Pillar 2 – Certification Pathway
+              </button>
+              <button class="pillar-tab" data-pillar="P3">
+                Pillar 3 – Buyer Engagement
+              </button>
+              <button class="pillar-tab" data-pillar="P4">
+                Pillar 4 – Transparency Tools
+              </button>
+            </div>
+            <div class="pillar-panel-body">
+              <div>
+                <div
+                  class="card-subtitle"
+                  id="phase3PillarDescription"
+                ></div>
+                <ul
+                  class="pillar-activities-list"
+                  id="phase3ActivitiesList"
+                ></ul>
+              </div>
+              <div>
+                <div class="card-subtitle">Pillar KPIs – Phase 3 values</div>
+                <div class="pillar-mini-chart">
+                  <canvas id="phase3PillarKpiChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Theory of Change – Phase 3</div>
+                <div class="card-subtitle">
+                  From verified data to trusted climate leadership
+                </div>
+              </div>
+            </div>
+            <div class="toc-strip">
+              <div class="toc-column">
+                <div class="toc-title">Activities</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    Publish <strong>Annual Sustainability Report</strong> and
+                    quarterly ESG dashboards.
+                  </li>
+                  <li class="toc-item">
+                    Launch public <strong>microsite</strong> with KPIs, LCA
+                    insights, and electrification status.
+                  </li>
+                  <li class="toc-item">
+                    Host an <strong>Annual Community Forum</strong> and expand
+                    Supplier ESG Data Pack distribution.
+                  </li>
+                </ul>
+              </div>
+              <div class="toc-column">
+                <div class="toc-title">Outputs</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    Publicly accessible performance data and
+                    <strong>visual explainers</strong> on enhanced weathering.
+                  </li>
+                  <li class="toc-item">
+                    Stakeholder feedback captured and integrated into ESG
+                    planning cycles.
+                  </li>
+                  <li class="toc-item">
+                    Updated <strong>Supplier ESG Data Pack</strong> shared with
+                    additional customers.
+                  </li>
+                </ul>
+              </div>
+              <div class="toc-column">
+                <div class="toc-title">Outcomes</div>
+                <ul class="toc-items">
+                  <li class="toc-item">
+                    CW’s climate-positive mining model becomes
+                    <strong>visible and trusted</strong>.
+                  </li>
+                  <li class="toc-item">
+                    Community and buyer relationships deepen through
+                    <strong>transparent dialogue</strong>.
+                  </li>
+                  <li class="toc-item">
+                    CW is positioned as a
+                    <strong>benchmark for low-carbon extraction</strong> in
+                    Canada.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- KPI Catalog -->
+        <section id="kpis" class="tab">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">ESG KPI Catalog</div>
+                <div class="card-subtitle">
+                  Searchable view of KPIs across pillars, categories, and phases
+                </div>
+              </div>
+            </div>
+            <div class="kpi-controls">
+              <input
+                type="text"
+                id="kpiSearch"
+                placeholder="Search KPI name…"
+              />
+              <select id="kpiFilterPillar">
+                <option value="">All pillars</option>
+                <option value="Pillar 1 – Build the Measurement Engine">
+                  Pillar 1 – Measurement Engine
+                </option>
+                <option
+                  value="Pillar 2 – Certification &amp; Verification Pathway"
+                >
+                  Pillar 2 – Certification &amp; Verification Pathway
+                </option>
+                <option
+                  value="Pillar 3 – Buyer &amp; Stakeholder Engagement System"
+                >
+                  Pillar 3 – Buyer &amp; Stakeholder Engagement System
+                </option>
+                <option
+                  value="Pillar 4 – Communication Strategy &amp; Transparency Tools"
+                >
+                  Pillar 4 – Communication &amp; Transparency
+                </option>
+              </select>
+              <select id="kpiFilterCategory">
+                <option value="">All categories</option>
+                <option value="Carbon">Carbon</option>
+                <option value="Biodiversity">Biodiversity</option>
+                <option value="Water">Water</option>
+                <option value="Restoration">Restoration</option>
+                <option value="Safety">Safety</option>
+                <option value="Community">Community</option>
+                <option value="Governance">Governance</option>
+              </select>
+            </div>
+            <div class="kpi-table-wrapper">
+              <table class="kpi-table">
+                <thead>
+                  <tr>
+                    <th>KPI Name</th>
+                    <th>Pillar</th>
+                    <th>Category</th>
+                    <th>Baseline 2025</th>
+                    <th>Current (Phase 3)</th>
+                    <th>Target 2028</th>
+                    <th>Owner</th>
+                    <th>Frequency</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="kpiTableBody">
+                  <!-- Filled by JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="small-muted">
+              Tip: click any KPI row to open full details, definition, and a
+              trend chart across Phase 1–3.
+            </div>
+          </div>
+        </section>
+
+        <!-- Data Definitions -->
+        <section id="definitions" class="tab">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Data Definitions &amp; Assumptions</div>
+                <div class="card-subtitle">
+                  How this ESG demonstration system is scoped
+                </div>
+              </div>
+            </div>
+            <div class="definitions-list">
+              <div>
+                <strong>
+                  Reporting Boundary – Mine-to-gate, baseline year 2025
+                </strong>
+                <br />
+                All KPIs are defined from <em>rock in the ground</em> to
+                processed product leaving CW’s surface mine near Kingston,
+                Ontario. Downstream logistics, customer use, and end-of-life
+                impacts are outside this dashboard’s scope but can be layered on
+                in future phases.
+              </div>
+              <div>
+                <strong>
+                  Temporal Cadence – Monthly, Quarterly, and Annual KPIs
+                </strong>
+                <br />
+                Operational metrics (e.g., energy use, incidents, complaints)
+                are tracked monthly, management and board dashboards are updated
+                quarterly, and narrative reporting (Sustainability Report,
+                Community Forum recap) is produced annually.
+              </div>
+              <div>
+                <strong>Electrification &amp; Carbon Assumptions</strong><br />
+                CW progressively electrifies primary crushing and on-site
+                equipment, reducing diesel use by ~50% by Phase 2 and ~80% by
+                Phase 3. Grid electricity is assumed to be primarily low-carbon
+                (Ontario hydro and nuclear) with gradual integration of on-site
+                solar PV.
+              </div>
+              <div>
+                <strong>Certification Readiness</strong><br />
+                ISO 14001 and TSM statuses in this dashboard represent
+                <em>readiness scores</em>, not yet certified operations. Phase 2
+                achieves a strong readiness position (e.g., 70–80%), while Phase
+                3 focuses on closing gaps and preparing for third-party
+                verification.
+              </div>
+              <div>
+                <strong>Data Quality &amp; Sources</strong><br />
+                KPIs are informed by internal logs (fuel, energy, production,
+                incidents), CW’s Life Cycle Assessment, community complaint
+                registers, and engagement records. Where precise values are not
+                yet available, reasonable directional estimates are used to
+                illustrate the functioning of the ESG engine.
+              </div>
+              <div>
+                <strong>Illustrative Demo Disclaimer</strong><br />
+                Values in this dashboard are
+                <strong>illustrative demonstration data</strong> designed to
+                show how CW’s ESG system could operate once fully implemented
+                through Phase 1–3. They are not actual reported performance
+                figures and should not be used for investment or compliance
+                decisions.
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- KPI Modal -->
+  <div class="modal-backdrop" id="kpiModal">
+    <div class="modal-card">
+      <button
+        class="modal-close"
+        id="kpiModalClose"
+        aria-label="Close KPI details"
+      >
+        ×
+      </button>
+      <div class="modal-header">
+        <h2 id="modalKpiName"></h2>
+        <p id="modalKpiDescription"></p>
+      </div>
+      <div class="modal-grid">
+        <div>
+          <ul class="modal-meta-list">
+            <li>
+              <strong>Pillar:</strong> <span id="modalKpiPillar"></span>
+            </li>
+            <li>
+              <strong>Category:</strong> <span id="modalKpiCategory"></span>
+            </li>
+            <li>
+              <strong>Owner:</strong> <span id="modalKpiOwner"></span>
+            </li>
+            <li>
+              <strong>Frequency:</strong> <span id="modalKpiFrequency"></span>
+            </li>
+            <li>
+              <strong>Status:</strong> <span id="modalKpiStatus"></span>
+            </li>
+            <li>
+              <strong>Baseline 2025:</strong>
+              <span id="modalKpiBaseline"></span>
+            </li>
+            <li>
+              <strong>Target 2028:</strong>
+              <span id="modalKpiTarget"></span>
+            </li>
+          </ul>
+          <div style="margin-top: 8px; font-size: 12px; color: #cbd5f5">
+            <strong>Why it matters:</strong>
+            <span id="modalKpiRationale"></span>
+          </div>
+          <div
+            style="margin-top: 4px; font-size: 12px; color: var(--text-soft)"
+          >
+            <strong>Data source:</strong>
+            <span id="modalKpiSource"></span>
+          </div>
+        </div>
+        <div>
+          <div class="card-subtitle">Trend across phases</div>
+          <div class="modal-chart">
+            <canvas id="modalKpiChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // ---------- Demo KPI Data ----------
+    const kpiData = [
+      {
+        id: "ghg_intensity",
+        name: "GHG Intensity (kg CO₂e per tonne)",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Carbon",
+        description:
+          "Mine-to-gate greenhouse gas emissions per tonne of processed wollastonite.",
+        unit: "kg CO₂e/t",
+        baseline_2025: 5.2,
+        phase1_value: 4.5,
+        phase2_value: 3.1,
+        phase3_value: 2.0,
+        target_2028: 1.5,
+        owner_role: "Sustainability Lead",
+        frequency: "Quarterly",
+        status: "On Track",
+        rationale:
+          "Reflects the combined impact of electrification, solar PV integration, and fuel efficiency.",
+        data_source:
+          "LCA model, diesel & electricity logs, production records",
+      },
+      {
+        id: "grid_electrification",
+        name: "Share of Operations Electrified",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Carbon",
+        description:
+          "Percentage of primary mining and processing equipment powered by grid or renewable electricity.",
+        unit: "% of key equipment",
+        baseline_2025: 25,
+        phase1_value: 40,
+        phase2_value: 65,
+        phase3_value: 85,
+        target_2028: 95,
+        owner_role: "Operations Manager",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Drives structural emissions reductions by replacing diesel-based processes with low-carbon electricity.",
+        data_source:
+          "Capex project logs, equipment inventory, electrical connection records",
+      },
+      {
+        id: "biodiversity_restored_land",
+        name: "Non-mined Land Under Active Restoration",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Biodiversity",
+        description:
+          "Percentage of CW-owned land outside the 55-acre mine footprint that is under active restoration or enhancement.",
+        unit: "% of non-mined land",
+        baseline_2025: 45,
+        phase1_value: 55,
+        phase2_value: 65,
+        phase3_value: 75,
+        target_2028: 85,
+        owner_role: "Land Stewardship Coordinator",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Connects mining operations to long-term biodiversity gains and nature-positive outcomes.",
+        data_source:
+          "Site restoration plans, tree planting logs, wetland monitoring data",
+      },
+      {
+        id: "trees_planted",
+        name: "Cumulative Native Trees Planted",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Restoration",
+        description:
+          "Total number of native trees planted on CW property as part of long-term restoration commitments.",
+        unit: "Number of trees",
+        baseline_2025: 15000,
+        phase1_value: 17000,
+        phase2_value: 20000,
+        phase3_value: 23000,
+        target_2028: 30000,
+        owner_role: "Land Stewardship Coordinator",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Serves as a visible proxy for ecosystem restoration and long-term carbon storage.",
+        data_source: "Planting contractor reports, CW restoration registers",
+      },
+      {
+        id: "water_use_intensity",
+        name: "Water Use Intensity",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Water",
+        description: "Freshwater use per tonne of processed wollastonite.",
+        unit: "m³/t",
+        baseline_2025: 0.35,
+        phase1_value: 0.33,
+        phase2_value: 0.3,
+        phase3_value: 0.28,
+        target_2028: 0.25,
+        owner_role: "Plant Manager",
+        frequency: "Quarterly",
+        status: "On Track",
+        rationale:
+          "Conserves local water resources and supports permitting and community expectations.",
+        data_source: "Flow meter readings, production records",
+      },
+      {
+        id: "trifr",
+        name: "Total Recordable Incident Frequency Rate (TRIFR)",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Safety",
+        description:
+          "Number of recordable safety incidents per 200,000 hours worked.",
+        unit: "Incidents / 200k hrs",
+        baseline_2025: 2.8,
+        phase1_value: 2.4,
+        phase2_value: 1.8,
+        phase3_value: 1.2,
+        target_2028: 0.8,
+        owner_role: "Health & Safety Lead",
+        frequency: "Quarterly",
+        status: "On Track",
+        rationale:
+          "Captures CW’s progress on worker safety and risk management.",
+        data_source: "Incident reports, hours-worked logs",
+      },
+      {
+        id: "near_miss_reporting",
+        name: "Near-Miss Reporting Rate",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Safety",
+        description: "Number of reported near-miss events per quarter.",
+        unit: "Near misses / quarter",
+        baseline_2025: 2,
+        phase1_value: 4,
+        phase2_value: 6,
+        phase3_value: 7,
+        target_2028: 8,
+        owner_role: "Health & Safety Lead",
+        frequency: "Quarterly",
+        status: "On Track",
+        rationale:
+          "Higher near-miss reporting indicates a stronger safety culture and proactive risk management.",
+        data_source: "Safety observation records, internal reporting system",
+      },
+      {
+        id: "community_complaints",
+        name: "Community Complaints – Noise & Blasting",
+        pillar: "Pillar 4 – Communication Strategy & Transparency Tools",
+        category: "Community",
+        description:
+          "Number of logged community complaints about noise or blasting per year.",
+        unit: "Complaints / year",
+        baseline_2025: 3,
+        phase1_value: 3,
+        phase2_value: 2,
+        phase3_value: 1,
+        target_2028: 0,
+        owner_role: "Community Liaison",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Direct indicator of CW’s relationship with neighbours and effectiveness of notifications.",
+        data_source:
+          "Complaint log required by operating licence, response records",
+      },
+      {
+        id: "complaint_response_time",
+        name: "Average Complaint Response Time",
+        pillar: "Pillar 4 – Communication Strategy & Transparency Tools",
+        category: "Community",
+        description:
+          "Average time to acknowledge and respond to community complaints.",
+        unit: "Hours",
+        baseline_2025: 24,
+        phase1_value: 20,
+        phase2_value: 16,
+        phase3_value: 12,
+        target_2028: 8,
+        owner_role: "Community Liaison",
+        frequency: "Quarterly",
+        status: "On Track",
+        rationale:
+          "Demonstrates CW’s commitment to timely, respectful engagement with neighbours.",
+        data_source: "Complaint log timestamps, email and phone records",
+      },
+      {
+        id: "community_forum_attendance",
+        name: "Annual Community Forum Attendance",
+        pillar: "Pillar 4 – Communication Strategy & Transparency Tools",
+        category: "Community",
+        description:
+          "Number of participants attending CW’s Annual Community Forum.",
+        unit: "Participants / year",
+        baseline_2025: 0,
+        phase1_value: 0,
+        phase2_value: 25,
+        phase3_value: 40,
+        target_2028: 60,
+        owner_role: "Community Liaison",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Signals community interest and the reach of CW’s transparency efforts.",
+        data_source: "Event registration lists, sign-in sheets",
+      },
+      {
+        id: "supplier_data_pack_readiness",
+        name: "Supplier ESG Data Pack Readiness",
+        pillar: "Pillar 3 – Buyer & Stakeholder Engagement System",
+        category: "Governance",
+        description:
+          "Degree to which CW’s Supplier ESG Data Pack meets enterprise buyer requirements.",
+        unit: "% of required fields.",
+        baseline_2025: 0,
+        phase1_value: 40,
+        phase2_value: 70,
+        phase3_value: 90,
+        target_2028: 100,
+        owner_role: "Sustainability Lead",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Determines CW’s ability to pre-qualify as a supplier in ESG-sensitive procurement processes.",
+        data_source:
+          "Buyer feedback, procurement questionnaires, ESG templates",
+      },
+      {
+        id: "buyer_prequalification_success",
+        name: "Buyer ESG Pre-Qualification Success Rate",
+        pillar: "Pillar 3 – Buyer & Stakeholder Engagement System",
+        category: "Governance",
+        description:
+          "Percentage of ESG-focused RFQs where CW passes sustainability pre-qualification.",
+        unit: "% of RFQs",
+        baseline_2025: 20,
+        phase1_value: 35,
+        phase2_value: 55,
+        phase3_value: 75,
+        target_2028: 90,
+        owner_role: "Commercial Lead",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Connects ESG performance to revenue opportunities with enterprise buyers.",
+        data_source:
+          "Sales pipeline, RFQ documentation, ESG questionnaires",
+      },
+      {
+        id: "iso_readiness",
+        name: "ISO 14001 Readiness Score",
+        pillar: "Pillar 2 – Certification & Verification Pathway",
+        category: "Governance",
+        description:
+          "Internal assessment of CW’s readiness against ISO 14001 environmental management system requirements.",
+        unit: "% of requirements met",
+        baseline_2025: 20,
+        phase1_value: 45,
+        phase2_value: 70,
+        phase3_value: 85,
+        target_2028: 100,
+        owner_role: "Sustainability Lead",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Acts as a proxy for CW’s ability to be certified and attract sustainability-linked finance.",
+        data_source: "Gap assessment, procedure reviews, internal audits",
+      },
+      {
+        id: "tsm_protocol_completion",
+        name: "TSM Protocol Completion",
+        pillar: "Pillar 2 – Certification & Verification Pathway",
+        category: "Governance",
+        description:
+          "Progress against required Towards Sustainable Mining (TSM) protocols relevant to CW’s operations.",
+        unit: "% of applicable protocols",
+        baseline_2025: 0,
+        phase1_value: 30,
+        phase2_value: 60,
+        phase3_value: 80,
+        target_2028: 95,
+        owner_role: "Operations Manager",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Positions CW within Canada’s leading mining guidance framework.",
+        data_source: "TSM self-assessment, protocol implementation logs",
+      },
+      {
+        id: "board_esg_updates",
+        name: "Board ESG Updates per Year",
+        pillar: "Pillar 2 – Certification & Verification Pathway",
+        category: "Governance",
+        description:
+          "Number of formal ESG updates provided to CW’s board of directors each year.",
+        unit: "Updates / year",
+        baseline_2025: 1,
+        phase1_value: 2,
+        phase2_value: 3,
+        phase3_value: 4,
+        target_2028: 4,
+        owner_role: "CEO",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Ensures governance oversight aligns with the strategic importance of sustainability.",
+        data_source: "Board agendas, minutes, ESG dashboard circulation logs",
+      },
+      {
+        id: "esg_data_completeness",
+        name: "ESG Data Completeness",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Governance",
+        description:
+          "Percentage of KPIs with complete and quality-checked data for the reporting period.",
+        unit: "% of KPIs",
+        baseline_2025: 40,
+        phase1_value: 65,
+        phase2_value: 80,
+        phase3_value: 92,
+        target_2028: 98,
+        owner_role: "Data Analyst",
+        frequency: "Quarterly",
+        status: "On Track",
+        rationale:
+          "Measures the maturity of CW’s ESG data pipeline and internal reporting discipline.",
+        data_source: "KPI completion checks, audit findings, data quality reviews",
+      },
+      {
+        id: "enhanced_weathering_co2",
+        name: "CO₂ Removed via Enhanced Weathering",
+        pillar: "Pillar 3 – Buyer & Stakeholder Engagement System",
+        category: "Carbon",
+        description:
+          "Estimated tonnes of CO₂ removed through enhanced weathering applications of CW products.",
+        unit: "t CO₂/year",
+        baseline_2025: 2000,
+        phase1_value: 3000,
+        phase2_value: 5000,
+        phase3_value: 8000,
+        target_2028: 12000,
+        owner_role: "Climate Solutions Lead",
+        frequency: "Annual",
+        status: "At Risk",
+        rationale:
+          "Connects CW’s product performance directly to climate-change mitigation for buyers.",
+        data_source: "MRV partner reports, application volumes, soil and field trials",
+      },
+      {
+        id: "restored_wetland_area",
+        name: "Restored or Constructed Wetland Area",
+        pillar: "Pillar 1 – Build the Measurement Engine",
+        category: "Restoration",
+        description:
+          "Area of wetlands restored or newly created on CW property.",
+        unit: "Hectares",
+        baseline_2025: 3,
+        phase1_value: 3.5,
+        phase2_value: 4.2,
+        phase3_value: 5,
+        target_2028: 6.5,
+        owner_role: "Land Stewardship Coordinator",
+        frequency: "Annual",
+        status: "On Track",
+        rationale:
+          "Supports biodiversity, water regulation, and nature-based climate resilience.",
+        data_source:
+          "Surveyed site maps, restoration plans, ecological monitoring",
+      },
+    ];
+
+    // Phase progress values for timeline & header
+    const phaseCompletion = {
+      phase1: 100,
+      phase2: 70,
+      phase3: 40,
+    };
+
+    const pillarOverallCompletion = {
+      P1: 82,
+      P2: 75,
+      P3: 78,
+      P4: 72,
+    };
+
+    // Phase pillar configuration: description, activities, kpiIds
+    const phasePillarConfig = {
+      phase1: {
+        P1: {
+          description:
+            "Set up the ESG Program Office, define mine-to-gate boundaries, and stand up the initial KPI and data infrastructure.",
+          activities: [
+            {
+              label: "Appoint Sustainability Lead and part-time Data Analyst.",
+              status: "Complete",
+            },
+            {
+              label: "Define mine-to-gate reporting boundary and 2025 baseline.",
+              status: "Complete",
+            },
+            {
+              label:
+                "Draft KPI catalog (15+ ESG KPIs) and validate with leadership.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Build v1 leadership dashboard with baseline carbon and restoration metrics.",
+              status: "In Progress",
+            },
+          ],
+          kpiIds: [
+            "ghg_intensity",
+            "biodiversity_restored_land",
+            "esg_data_completeness",
+          ],
+        },
+        P2: {
+          description:
+            "Lay the groundwork for ISO 14001 and TSM by mapping requirements and prioritizing gaps.",
+          activities: [
+            {
+              label:
+                "Identify applicable ISO 14001 clauses and TSM protocols.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Create initial register of environmental aspects and impacts.",
+              status: "In Progress",
+            },
+            {
+              label: "Assign process owners for future ISO and TSM tasks.",
+              status: "Not Started",
+            },
+          ],
+          kpiIds: ["iso_readiness", "tsm_protocol_completion"],
+        },
+        P3: {
+          description:
+            "Clarify buyer requirements and begin structuring procurement-ready ESG content.",
+          activities: [
+            {
+              label:
+                "Map ESG information requested by priority buyers (tech, grocery).",
+              status: "Complete",
+            },
+            {
+              label: "Outline Supplier ESG Data Pack structure and fields.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Align planned KPIs with buyer procurement questionnaires.",
+              status: "In Progress",
+            },
+          ],
+          kpiIds: [
+            "supplier_data_pack_readiness",
+            "buyer_prequalification_success",
+          ],
+        },
+        P4: {
+          description:
+            "Reinforce CW’s social licence by formalizing complaint tracking and notification practices.",
+          activities: [
+            {
+              label: "Standardize complaint logging and response templates.",
+              status: "Complete",
+            },
+            {
+              label:
+                "Confirm neighbour contact list and notification protocol for blasting.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Design simple visual concept for enhanced weathering explainer.",
+              status: "Not Started",
+            },
+          ],
+          kpiIds: ["community_complaints", "complaint_response_time"],
+        },
+      },
+      phase2: {
+        P1: {
+          description:
+            "Strengthen data quality and coverage across all ESG KPIs, supported by quarterly audits.",
+          activities: [
+            {
+              label:
+                "Expand KPI coverage to water, safety, and community metrics.",
+              status: "Complete",
+            },
+            {
+              label:
+                "Introduce monthly data quality checks and owner reviews.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Refine leadership dashboard with trend views and variance flags.",
+              status: "In Progress",
+            },
+          ],
+          kpiIds: ["esg_data_completeness", "water_use_intensity", "trifr"],
+        },
+        P2: {
+          description:
+            "Execute gap assessment, build evidence logs, and formalize incident and audit procedures for ISO & TSM.",
+          activities: [
+            {
+              label: "Complete ISO 14001 gap assessment and action plan.",
+              status: "In Progress",
+            },
+            {
+              label: "Launch quarterly ESG and H&S internal audits.",
+              status: "In Progress",
+            },
+            {
+              label: "Populate evidence log for TSM protocols.",
+              status: "In Progress",
+            },
+          ],
+          kpiIds: ["iso_readiness", "tsm_protocol_completion", "board_esg_updates"],
+        },
+        P3: {
+          description:
+            "Pilot the Supplier ESG Data Pack with select enterprise buyers and refine based on feedback.",
+          activities: [
+            {
+              label: "Populate Supplier ESG Data Pack with baseline data.",
+              status: "Complete",
+            },
+            {
+              label:
+                "Pilot the pack with three priority buyers and capture feedback.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Incorporate buyer feedback into KPI definitions and metadata.",
+              status: "In Progress",
+            },
+          ],
+          kpiIds: [
+            "supplier_data_pack_readiness",
+            "buyer_prequalification_success",
+            "enhanced_weathering_co2",
+          ],
+        },
+        P4: {
+          description:
+            "Test public-facing communication elements in preparation for the microsite and community forum.",
+          activities: [
+            {
+              label: "Draft microsite structure and initial KPI narrative.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Align regulatory notifications with proactive community updates.",
+              status: "In Progress",
+            },
+            {
+              label: "Plan first Annual Community Forum agenda.",
+              status: "Not Started",
+            },
+          ],
+          kpiIds: ["community_forum_attendance", "community_complaints"],
+        },
+      },
+      phase3: {
+        P1: {
+          description:
+            "Stabilize the ESG data engine to support reliable public reporting and continuous improvement.",
+          activities: [
+            {
+              label: "Reach >90% ESG data completeness across all KPIs.",
+              status: "In Progress",
+            },
+            {
+              label: "Automate portions of data collection where feasible.",
+              status: "Not Started",
+            },
+            {
+              label:
+                "Integrate KPI performance into annual planning and budgeting.",
+              status: "Not Started",
+            },
+          ],
+          kpiIds: [
+            "esg_data_completeness",
+            "ghg_intensity",
+            "biodiversity_restored_land",
+          ],
+        },
+        P2: {
+          description:
+            "Solidify ISO and TSM readiness to enable third-party verification and sustainability-linked finance.",
+          activities: [
+            {
+              label: "Close remaining ISO and TSM gaps identified in audits.",
+              status: "In Progress",
+            },
+            {
+              label: "Prepare management for formal certification process.",
+              status: "Not Started",
+            },
+            {
+              label:
+                "Link certification readiness to banking and investor discussions.",
+              status: "Not Started",
+            },
+          ],
+          kpiIds: ["iso_readiness", "tsm_protocol_completion"],
+        },
+        P3: {
+          description:
+            "Scale the Supplier ESG Data Pack and demonstrate product-level climate benefits to buyers.",
+          activities: [
+            {
+              label:
+                "Roll out Supplier ESG Data Pack to additional strategic buyers.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Highlight enhanced weathering performance in buyer briefings.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Track conversion of ESG-qualified leads into long-term contracts.",
+              status: "Not Started",
+            },
+          ],
+          kpiIds: [
+            "buyer_prequalification_success",
+            "supplier_data_pack_readiness",
+            "enhanced_weathering_co2",
+          ],
+        },
+        P4: {
+          description:
+            "Make CW’s climate-positive mining model visible and understandable for community and public audiences.",
+          activities: [
+            {
+              label:
+                "Launch public sustainability microsite with KPI and LCA visuals.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Host Annual Community Forum and publish a summary.",
+              status: "In Progress",
+            },
+            {
+              label:
+                "Refine visual explainers on enhanced weathering and land restoration.",
+              status: "In Progress",
+            },
+          ],
+          kpiIds: [
+            "community_forum_attendance",
+            "community_complaints",
+            "complaint_response_time",
+          ],
+        },
+      },
+    };
+
+    // Phase headline KPI IDs for snapshots
+    const phaseHeadlineKpis = {
+      phase1: ["ghg_intensity", "esg_data_completeness", "iso_readiness"],
+      phase2: [
+        "ghg_intensity",
+        "esg_data_completeness",
+        "iso_readiness",
+        "supplier_data_pack_readiness",
+      ],
+      phase3: [
+        "ghg_intensity",
+        "esg_data_completeness",
+        "buyer_prequalification_success",
+        "enhanced_weathering_co2",
+      ],
+    };
+
+    let overviewChart,
+      phaseMiniCharts = {},
+      pillarKpiCharts = {},
+      modalChart;
+
+    function formatValue(kpi, phaseKey) {
+      const val = kpi[phaseKey];
+      if (val === null || val === undefined) return "–";
+      if (typeof val === "number") {
+        if (Math.abs(val) >= 1000) return val.toLocaleString();
+        if (kpi.unit && kpi.unit.includes("%")) return `${val.toFixed(0)}%`;
+        return val % 1 === 0 ? val.toFixed(0) : val.toFixed(2);
+      }
+      return String(val);
+    }
+
+    function statusClass(status) {
+      if (status === "On Track") return "status-on-track";
+      if (status === "At Risk") return "status-at-risk";
+      return "status-not-started";
+    }
+
+    function activityStatusClass(status) {
+      if (status === "Complete") return "status-complete";
+      if (status === "In Progress") return "status-progress";
+      return "status-not-started";
+    }
+
+    function navInit() {
+      const navItems = document.querySelectorAll(".nav-item");
+      navItems.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          navItems.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const tabId = btn.getAttribute("data-tab");
+          document.querySelectorAll(".tab").forEach((tab) => {
+            tab.classList.toggle("active", tab.id === tabId);
+          });
+        });
+      });
+    }
+
+    function computeOverview() {
+      const p1 = phaseCompletion.phase1;
+      const p2 = phaseCompletion.phase2;
+      const p3 = phaseCompletion.phase3;
+      const overall = Math.round((p1 + p2 + p3) / 3);
+
+      document.getElementById("overviewOverallProgress").textContent =
+        overall + "%";
+      document.getElementById("timelineFill").style.width = overall + "%";
+
+      document.getElementById("phase1Percent").textContent = p1 + "%";
+      document.getElementById("phase2Percent").textContent = p2 + "%";
+      document.getElementById("phase3Percent").textContent = p3 + "%";
+
+      document.getElementById("pillar1Completion").textContent =
+        pillarOverallCompletion.P1 + "%";
+      document.getElementById("pillar2Completion").textContent =
+        pillarOverallCompletion.P2 + "%";
+      document.getElementById("pillar3Completion").textContent =
+        pillarOverallCompletion.P3 + "%";
+      document.getElementById("pillar4Completion").textContent =
+        pillarOverallCompletion.P4 + "%";
+    }
+
+    function buildOverviewChart() {
+      const ctx = document
+        .getElementById("overviewHeadlineChart")
+        .getContext("2d");
+      const ghg = kpiData.find((k) => k.id === "ghg_intensity");
+      const restoredLand = kpiData.find(
+        (k) => k.id === "biodiversity_restored_land"
+      );
+      const iso = kpiData.find((k) => k.id === "iso_readiness");
+      const buyerSuccess = kpiData.find(
+        (k) => k.id === "buyer_prequalification_success"
+      );
+
+      overviewChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [
+            "Baseline 2025",
+            "Phase 1",
+            "Phase 2",
+            "Phase 3",
+            "Target 2028",
+          ],
+          datasets: [
+            {
+              label: "GHG Intensity (kg CO₂e/t)",
+              data: [
+                ghg.baseline_2025,
+                ghg.phase1_value,
+                ghg.phase2_value,
+                ghg.phase3_value,
+                ghg.target_2028,
+              ],
+              borderWidth: 2,
+              tension: 0.35,
+            },
+            {
+              label: "Restored Land (%)",
+              data: [
+                restoredLand.baseline_2025,
+                restoredLand.phase1_value,
+                restoredLand.phase2_value,
+                restoredLand.phase3_value,
+                restoredLand.target_2028,
+              ],
+              borderWidth: 2,
+              tension: 0.35,
+            },
+            {
+              label: "ISO 14001 Readiness (%)",
+              data: [
+                iso.baseline_2025,
+                iso.phase1_value,
+                iso.phase2_value,
+                iso.phase3_value,
+                iso.target_2028,
+              ],
+              borderWidth: 2,
+              tension: 0.35,
+            },
+            {
+              label: "Buyer ESG Pre-Qualification (%)",
+              data: [
+                buyerSuccess.baseline_2025,
+                buyerSuccess.phase1_value,
+                buyerSuccess.phase2_value,
+                buyerSuccess.phase3_value,
+                buyerSuccess.target_2028,
+              ],
+              borderWidth: 2,
+              tension: 0.35,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: "#cbd5f5",
+                font: { size: 11 },
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const label = ctx.dataset.label || "";
+                  return `${label}: ${ctx.parsed.y}`;
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: "#94a3b8",
+                font: { size: 11 },
+              },
+              grid: {
+                color: "rgba(51,65,85,0.6)",
+              },
+            },
+            y: {
+              ticks: {
+                color: "#94a3b8",
+                font: { size: 11 },
+              },
+              grid: {
+                color: "rgba(51,65,85,0.6)",
+              },
+            },
+          },
+        },
+      });
+    }
+
+    function buildPhaseSnapshots() {
+      ["phase1", "phase2", "phase3"].forEach((phaseId) => {
+        const containerId = phaseId + "KpiSnapshot";
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = "";
+        const ids = phaseHeadlineKpis[phaseId] || [];
+
+        ids.forEach((id) => {
+          const kpi = kpiData.find((k) => k.id === id);
+          if (!kpi) return;
+
+          let phaseKey =
+            phaseId === "phase1"
+              ? "phase1_value"
+              : phaseId === "phase2"
+              ? "phase2_value"
+              : "phase3_value";
+
+          const value = formatValue(kpi, phaseKey);
+          const target = kpi.target_2028;
+
+          let pct = 50;
+          if (
+            typeof kpi[phaseKey] === "number" &&
+            typeof target === "number"
+          ) {
+            if (kpi.category === "Carbon" && !String(kpi.unit).includes("%")) {
+              const baseline = kpi.baseline_2025 || kpi[phaseKey];
+              const improvement = baseline - kpi[phaseKey];
+              const total = baseline - target;
+              pct =
+                total > 0
+                  ? Math.max(0, Math.min(100, (improvement / total) * 100))
+                  : 50;
+            } else {
+              pct = Math.max(
+                0,
+                Math.min(100, (kpi[phaseKey] / target) * 100)
+              );
+            }
+          }
+
+          const row = document.createElement("div");
+          row.className = "mini-kpi-row";
+          row.innerHTML = `
+            <span><strong>${kpi.name}</strong></span>
+            <div class="mini-kpi-meta">
+              <span>${value} ${kpi.unit || ""}</span>
+              <div class="mini-progress">
+                <div class="mini-progress-fill" style="width:${pct.toFixed(
+                  0
+                )}%;"></div>
+              </div>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+      });
+
+      ["phase1", "phase2", "phase3"].forEach((phaseId) => {
+        const ctx = document.getElementById(phaseId + "MiniChart");
+        if (!ctx) return;
+
+        const ids = phaseHeadlineKpis[phaseId] || [];
+        const labels = [];
+        const data = [];
+
+        ids.forEach((id) => {
+          const kpi = kpiData.find((k) => k.id === id);
+          if (!kpi) return;
+
+          labels.push(kpi.name);
+          const phaseKey =
+            phaseId === "phase1"
+              ? "phase1_value"
+              : phaseId === "phase2"
+              ? "phase2_value"
+              : "phase3_value";
+          data.push(typeof kpi[phaseKey] === "number" ? kpi[phaseKey] : 0);
+        });
+
+        phaseMiniCharts[phaseId] = new Chart(ctx.getContext("2d"), {
+          type: "bar",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "Phase KPI value",
+                data,
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {},
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: "#94a3b8",
+                  font: { size: 10 },
+                },
+                grid: {
+                  display: false,
+                },
+              },
+              y: {
+                ticks: {
+                  color: "#94a3b8",
+                  font: { size: 10 },
+                },
+                grid: {
+                  color: "rgba(51,65,85,0.7)",
+                },
+              },
+            },
+          },
+        });
+      });
+    }
+
+    function updatePillarPanel(phaseId, pillarCode) {
+      const conf = phasePillarConfig[phaseId][pillarCode];
+      if (!conf) return;
+
+      const descEl = document.getElementById(phaseId + "PillarDescription");
+      const listEl = document.getElementById(phaseId + "ActivitiesList");
+
+      if (descEl) descEl.textContent = conf.description;
+
+      if (listEl) {
+        listEl.innerHTML = "";
+        conf.activities.forEach((act) => {
+          const li = document.createElement("li");
+          li.className = "pillar-activity";
+          li.innerHTML = `
+            <div class="activity-main">${act.label}</div>
+            <span class="activity-status ${activityStatusClass(
+              act.status
+            )}">${act.status}</span>
+          `;
+          listEl.appendChild(li);
+        });
+      }
+
+      const canvasId = phaseId + "PillarKpiChart";
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      if (pillarKpiCharts[phaseId]) {
+        pillarKpiCharts[phaseId].destroy();
+      }
+
+      const labels = [];
+      const values = [];
+
+      conf.kpiIds.forEach((id) => {
+        const kpi = kpiData.find((k) => k.id === id);
+        if (!kpi) return;
+
+        labels.push(kpi.name);
+        const phaseKey =
+          phaseId === "phase1"
+            ? "phase1_value"
+            : phaseId === "phase2"
+            ? "phase2_value"
+            : "phase3_value";
+        values.push(typeof kpi[phaseKey] === "number" ? kpi[phaseKey] : 0);
+      });
+
+      pillarKpiCharts[phaseId] = new Chart(canvas.getContext("2d"), {
+        type: "radar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Pillar KPI performance",
+              data: values,
+              borderWidth: 2,
+              pointRadius: 3,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          scales: {
+            r: {
+              angleLines: {
+                color: "rgba(55,65,81,0.7)",
+              },
+              grid: {
+                color: "rgba(55,65,81,0.7)",
+              },
+              ticks: {
+                display: false,
+              },
+              pointLabels: {
+                color: "#e5e7eb",
+                font: { size: 10 },
+              },
+            },
+          },
+        },
+      });
+    }
+
+    function initPillarPanels() {
+      ["phase1", "phase2", "phase3"].forEach((phaseId) => {
+        const panel = document.querySelector(
+          `.pillar-panel[data-phase="${phaseId}"]`
+        );
+        if (!panel) return;
+
+        const tabs = panel.querySelectorAll(".pillar-tab");
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            const pillarCode = tab.getAttribute("data-pillar");
+            updatePillarPanel(phaseId, pillarCode);
+          });
+        });
+
+        updatePillarPanel(phaseId, "P1");
+      });
+    }
+
+    function buildKpiTable() {
+      const tbody = document.getElementById("kpiTableBody");
+      tbody.innerHTML = "";
+
+      kpiData.forEach((kpi) => {
+        const tr = document.createElement("tr");
+        tr.setAttribute("data-kpi-id", kpi.id);
+
+        const statusCls = statusClass(kpi.status);
+        const currentPhase3 = formatValue(kpi, "phase3_value");
+
+        tr.innerHTML = `
+          <td>${kpi.name}</td>
+          <td>${kpi.pillar}</td>
+          <td>${kpi.category}</td>
+          <td>${formatValue(kpi, "baseline_2025")} ${kpi.unit || ""}</td>
+          <td>${currentPhase3} ${kpi.unit || ""}</td>
+          <td>${
+            typeof kpi.target_2028 === "number"
+              ? kpi.target_2028.toLocaleString()
+              : kpi.target_2028
+          } ${kpi.unit || ""}</td>
+          <td>${kpi.owner_role}</td>
+          <td>${kpi.frequency}</td>
+          <td>
+            <span class="kpi-status-pill ${statusCls}">
+              <span class="status-chip-dot"></span>${kpi.status}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterKpiTable() {
+      const search = document.getElementById("kpiSearch").value.toLowerCase();
+      const pillar = document.getElementById("kpiFilterPillar").value;
+      const category = document.getElementById("kpiFilterCategory").value;
+      const tbody = document.getElementById("kpiTableBody");
+
+      Array.from(tbody.querySelectorAll("tr")).forEach((tr) => {
+        const kpiId = tr.getAttribute("data-kpi-id");
+        const kpi = kpiData.find((k) => k.id === kpiId);
+        if (!kpi) return;
+
+        let visible = true;
+        if (search && !kpi.name.toLowerCase().includes(search)) visible = false;
+        if (pillar && kpi.pillar !== pillar) visible = false;
+        if (category && kpi.category !== category) visible = false;
+
+        tr.style.display = visible ? "" : "none";
+      });
+    }
+
+    function initKpiFilters() {
+      ["kpiSearch", "kpiFilterPillar", "kpiFilterCategory"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        el.addEventListener("input", filterKpiTable);
+        el.addEventListener("change", filterKpiTable);
+      });
+    }
+
+    function openKpiModal(kpi) {
+      const modal = document.getElementById("kpiModal");
+      modal.classList.add("active");
+
+      document.getElementById("modalKpiName").textContent = kpi.name;
+      document.getElementById("modalKpiDescription").textContent =
+        kpi.description;
+      document.getElementById("modalKpiPillar").textContent = kpi.pillar;
+      document.getElementById("modalKpiCategory").textContent = kpi.category;
+      document.getElementById("modalKpiOwner").textContent = kpi.owner_role;
+      document.getElementById("modalKpiFrequency").textContent = kpi.frequency;
+      document.getElementById("modalKpiStatus").textContent = kpi.status;
+      document.getElementById(
+        "modalKpiBaseline"
+      ).textContent = `${formatValue(kpi, "baseline_2025")} ${
+        kpi.unit || ""
+      }`;
+      document.getElementById(
+        "modalKpiTarget"
+      ).textContent = `${kpi.target_2028} ${kpi.unit || ""}`;
+      document.getElementById("modalKpiRationale").textContent = kpi.rationale;
+      document.getElementById("modalKpiSource").textContent = kpi.data_source;
+
+      const ctx = document.getElementById("modalKpiChart").getContext("2d");
+      if (modalChart) modalChart.destroy();
+
+      modalChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [
+            "Baseline 2025",
+            "Phase 1",
+            "Phase 2",
+            "Phase 3",
+            "Target 2028",
+          ],
+          datasets: [
+            {
+              label: kpi.unit || "Value",
+              data: [
+                kpi.baseline_2025,
+                kpi.phase1_value,
+                kpi.phase2_value,
+                kpi.phase3_value,
+                kpi.target_2028,
+              ],
+              borderWidth: 2,
+              tension: 0.35,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {},
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: "#94a3b8",
+                font: { size: 11 },
+              },
+              grid: {
+                color: "rgba(51,65,85,0.6)",
+              },
+            },
+            y: {
+              ticks: {
+                color: "#94a3b8",
+                font: { size: 11 },
+              },
+              grid: {
+                color: "rgba(51,65,85,0.6)",
+              },
+            },
+          },
+        },
+      });
+    }
+
+    function initKpiModal() {
+      const tbody = document.getElementById("kpiTableBody");
+      tbody.addEventListener("click", (e) => {
+        let tr = e.target.closest("tr");
+        if (!tr) return;
+
+        const id = tr.getAttribute("data-kpi-id");
+        const kpi = kpiData.find((k) => k.id === id);
+        if (kpi) openKpiModal(kpi);
+      });
+
+      const modal = document.getElementById("kpiModal");
+      const closeBtn = document.getElementById("kpiModalClose");
+
+      closeBtn.addEventListener("click", () => modal.classList.remove("active"));
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("active");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") modal.classList.remove("active");
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      navInit();
+      computeOverview();
+      buildOverviewChart();
+      buildPhaseSnapshots();
+      initPillarPanels();
+      buildKpiTable();
+      initKpiFilters();
+      filterKpiTable();
+      initKpiModal();
+    });
+  </script>
+</body>
+</html>
